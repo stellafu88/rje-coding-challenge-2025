@@ -26,7 +26,44 @@ In our main code base, you would expect to find this architecture replicated wit
 
 # Answers
 
-1. //Optionally provide any notes relating to question 1 here.
-2. //Optionally provide any notes relating to question 2 here.
-3. //Provide your answer to question 3 here.
-4. //Provide your link or location of your file within the repo here.
+1. Code changes have been made under the commit named: "task 1: show loading message when the contact list is empty". I chose to display "No Contact" instead of "Loading Contacts" in case there is a failed the contacts fetching.
+
+2. Code changes have been made under the commit named: "task 2: add an 'Add Contact' button to the contact list with the appropriate actions and effects".
+
+3. we would need to add some code to catch the error by using the 'catchError' operator, log the error for debugging, and dispatch a new action for failed action so we could show a relevant error message to the user in the application. 
+
+Example snippet:
+retrieveContactList$ = createEffect(() => this.actions$.pipe(
+    ofType(actions.appStarted),
+    concatMap(() => 
+        this.contactService.getContactList$().pipe(
+            map(contactList => actions.contactListReturned({ contactList })),
+            catchError(error => { // Import the carchError from the 'rxjs'.
+                console.error('Error fetching contact list:', error); // Log the error.
+                return of(actions.contactListFetchFailed({ error: error.message })); // Dispatch an error action.
+                // The 'contactListFetchFailed' action will need to be defined in the actions file. 
+                // Later, we could use the error message to provide feedback to the user.
+            })
+        )
+    )
+));
+
+4. Diagrams: https://www.figma.com/board/st0ZpnIxU6VzgtTytJkWMf/Welcome-to-FigJam?node-id=0-1&t=2HHEWt02wCpABRmM-1
+The diagrams are also saved as a PDF file named Task 4 - Diagrams.pdf at the root of this project. 
+
+Steps I would take to implement that feature:
+ 1. Add a new button to view roles on the current contact list page for each contact.
+ 2. Create a new manage-roles component to manage a contact's roles
+ 3. Clicking the View Roles button should navigate the user to the manage-roles page in step 2
+ 4. Display the contact's full name and table as per Figma design. The full name is retrieved from the selected contact in the store.
+ 5. Assuming there is an API endpoint to fetch list of projects and roles by contact ID.
+    e.g. [{name: "Project1", role: "Manager"}, {name: "Project2", role: "Admin"}]
+ 6. Create an action and effect that calls the above endpoint with the selected contact ID to fetch a list of projects and roles and use that data to populate the table in the manage-roles component.
+ 7. The table should show a loading spinner or another loading indicator while fetching the data. The effect in step 6 should handle error in a user-friendly way. e.g. error toast message
+ 8. The table should 
+    - allow pagination to prevent too much projects being loaded in one request that reduce the server load and is more user-friendly.
+    - have filter and/or search function that helps user quickly narrows down project list.
+ 9. Add a edit role dialog as per figma design, which will be displayed by clicking on the "Edit Role" button. Under the hood, it should call an action that triggers an effect to open such dialog.  
+ 10. Create save and cancel actions that have effect to update the role or close the "Edit Role" dialog. Errors should be handled gracefully and display a user friendly error message. Potentially, indicate the saving action in progress with a spinner. 
+ 11. Add component tests to all components.
+
