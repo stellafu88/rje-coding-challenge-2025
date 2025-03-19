@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from './state';
 import { appStarted } from './state/actions';
+import * as actions from './state/actions';
 
 @Component({
   selector: 'app-root',
@@ -19,4 +20,7 @@ export class AppComponent {
     this.store.dispatch(appStarted())
   }
 
+  addContactClicked(){
+    this.store.dispatch(actions.addContactClicked())
+  }
 }

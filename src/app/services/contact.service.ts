@@ -49,7 +49,8 @@ export class ContactService {
   
     if (index === -1) {
       // If the contact doesn't exist, add it
-      this.mockList = [...this.mockList, { ...contact, id: this.getNextId() }];
+      contact = { ...contact, id: this.getNextId()};
+      this.mockList = [...this.mockList, contact];
     } else {
       // If the contact exists, replace it with a new object
       this.mockList = [
@@ -70,7 +71,7 @@ export class ContactService {
 
   //#endregion
 
-  editContactDialog$(contact: Contact) : Observable<Contact> {
+  editContactDialog$(contact?: Contact) : Observable<Contact> {
 
     const dialogRef = this.dialog.open(ContactEditDialogComponent, {
       data: {

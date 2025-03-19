@@ -34,3 +34,6 @@ export const contactSavedSuccess = createAction(
     props<{contact: Contact}>()
 );
 
+export const addContactClicked = createAction(
+    '[CONTACT DETAIL] Add Contact Button Clicked');
+

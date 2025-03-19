@@ -1,6 +1,6 @@
 <div class="dialog-container">
 
-    <h3 class="dialog-title">Editing Contact with ID: {{data.contact?.id}}</h3>
+    <h3 class="dialog-title">{{ data.contact ? 'Editing Contact with ID:' + data.contact.id : 'Add Contact'}} </h3>
 
     <form [formGroup]="contactForm" class="contact-form">
     <input formControlName="firstName" placeholder="First Name" class="form-input">
