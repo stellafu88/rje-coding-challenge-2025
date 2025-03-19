@@ -30,6 +30,14 @@ In our main code base, you would expect to find this architecture replicated wit
 
 2. Code changes have been made under the commit named: "task 2: add an 'Add Contact' button to the contact list with the appropriate actions and effects".
 
+Note: If more time is allowed, I would add the following:
+ - component tests for existing features and new features that I implemented in task 1 and 2.
+ - validation for the edit form inputs
+    a. first name and last name should not be empty
+    b. phone number should be certain phone number format
+    c. email should be a valid email
+    d. the save button should be disabled if any of the above fields is invalid
+
 3. we would need to add some code to catch the error by using the 'catchError' operator, log the error for debugging, and dispatch a new action for failed action so we could show a relevant error message to the user in the application. 
 
 Example snippet:
