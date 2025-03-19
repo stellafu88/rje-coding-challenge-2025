@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Contact } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 import { State, selectActiveContact, selectContactList } from '../../state';
@@ -16,6 +16,7 @@ export class ContactListComponent {
 
   contactList$: Observable<Contact[]>;
   activeContact$: Observable<Contact | undefined>;
+  isListEmpty$: Observable<boolean>;
 
   constructor(
     private contactService : ContactService,
@@ -23,6 +24,9 @@ export class ContactListComponent {
   ){
     this.contactList$ = this.store.select(selectContactList)
     this.activeContact$ = this.store.select(selectActiveContact);
+    this.isListEmpty$ = this.contactList$.pipe(
+      map(contacts => !contacts.length)
+    )
   }
 
   viewContactClicked(contactId : number ){
